@@ -1,9 +1,14 @@
 package dev.kaskaz.golftour.controllers
 
 import dev.kaskaz.golftour.models.Course
+import org.json4s.JsonAST.JObject
+import org.json4s.JsonDSL._
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.ScalatraServlet
 import org.scalatra.json._
+
+import scala.collection.mutable.ListBuffer
+
 
 class CoursesController extends ScalatraServlet with JacksonJsonSupport {
 
@@ -19,7 +24,21 @@ class CoursesController extends ScalatraServlet with JacksonJsonSupport {
   }
 
   get("/list") {
-    COURSES
+
+    val list = ListBuffer[JObject]()
+
+    COURSES.foreach(course =>
+      list += ("id", course.id)
+            ~ ("name", course.name)
+            ~ ("local", course.local)
+            ~ ("openingYear", course.openingYear)
+            ~ ("pairs", course.pairs)
+            ~ ("holes", course.holes)
+            ~ ("isClubHouse", course.isClubHouse)
+            ~ ("isAcademy", course.isAcademy)
+    )
+
+    list
   }
 
   get("/details") {
@@ -27,22 +46,3 @@ class CoursesController extends ScalatraServlet with JacksonJsonSupport {
   }
 
 }
-
-
-//{
-//  id: 2,
-//  name: 'Quinta do Vale Golf Resort',
-//  openingYear: '2008',
-//  architect: 'Severiano Ballesteros',
-//  holes: 18,
-//  pairs: 72,
-//  facilities: ['Driving Range', 'Putting Green', 'Chipping Green', 'Buggies', 'Trolleys', 'Aluguer de Tacos', 'Loja', 'Restaurante', 'Bar', 'Sauna', 'Centro Hípico', 'Futebol', 'Piscina', 'Ténis'],
-//  isClubHouse: true,
-//  isAcademy: false,
-//  website: 'https://www.dolcecamporeal.com/pt/golfe/',
-//  local: 'Turcifal',
-//  county: 'Torres Vedras',
-//  district: 'Lisboa',
-//  latitude: 39.0327626768318,
-//  longitude: -9.24289579133255
-//}
