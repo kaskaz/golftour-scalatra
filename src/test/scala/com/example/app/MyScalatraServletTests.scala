@@ -4,7 +4,7 @@ import org.scalatra.test.scalatest._
 
 class MyScalatraServletTests extends ScalatraFunSuite {
 
-  addServlet(classOf[MyScalatraServlet], "/*")
+  //addServlet(classOf[MyScalatraServlet], "/*")
 
   test("GET / on MyScalatraServlet should return status 200") {
     get("/") {
