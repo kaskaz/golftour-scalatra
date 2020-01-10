@@ -15,5 +15,5 @@ case class Course (
   county: String,
   district: String,
   latitude: Double,
-  longitude: Double,
+  longitude: Double
 )

@@ -1,6 +1,8 @@
 package dev.kaskaz.golftour.controllers
 
 import dev.kaskaz.golftour.models.Course
+import dev.kaskaz.golftour.repositories.CoursesRepository
+import dev.kaskaz.golftour.services.CoursesService
 import org.json4s.JsonAST.JObject
 import org.json4s.JsonDSL._
 import org.json4s.{DefaultFormats, Formats}
@@ -21,13 +23,12 @@ class CoursesController extends ScalatraServlet with JacksonJsonSupport {
 
   before() {
     contentType = "application/json"
+    response.setHeader("Access-Control-Allow-Origin", "*")
   }
 
   get("/list") {
-
     val list = ListBuffer[JObject]()
-
-    COURSES.foreach(course =>
+    CoursesService.getAll().foreach(course =>
       list += ("id", course.id)
             ~ ("name", course.name)
             ~ ("local", course.local)
@@ -37,7 +38,6 @@ class CoursesController extends ScalatraServlet with JacksonJsonSupport {
             ~ ("isClubHouse", course.isClubHouse)
             ~ ("isAcademy", course.isAcademy)
     )
-
     list
   }
 
